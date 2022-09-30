@@ -13,7 +13,7 @@ int main() {
     boost::icl::interval_set<double> union_set;
     boost::icl::interval_set<double> difference_set;
 
-    intersection_set = boost::icl::interval_set<double>();
+    intersection_set = boost::icl::interval_set<double>(interval1);
     intersection_set &= boost::icl::interval_set<double>(interval2);
 
     std::cout << "intersection - sets: 1, 2." << std::endl;
