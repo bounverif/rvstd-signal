@@ -46,7 +46,3 @@ RUN git clone --depth 1 --branch v1.7.0 https://github.com/google/benchmark.git 
     -DCMAKE_BUILD_TYPE=Release \
     && cmake --build /tmp/benchmark/build/ --target install -j$(nproc) \
     && rm -rf /tmp/benchmark
-    
-WORKDIR /workspaces/project
-
-COPY ./workspaces/project
