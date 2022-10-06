@@ -27,8 +27,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install \
         clang \
         clangd \
-        clang-format \
-        clang-tidy \
         lcov \
         valgrind \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
