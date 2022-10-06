@@ -10,29 +10,24 @@ static boost::icl::interval<double>::type interval1(0.0, 100.0);
 static boost::icl::interval<double>::type interval2(10.0, 90.0);
 
 
-static boost::icl::interval_set<double> interval_set1 = static_cast< boost::icl::interval_set<double> >(interval1);
-static boost::icl::interval_set<double> interval_set2 = static_cast< boost::icl::interval_set<double> >(interval2);
+static boost::icl::interval_set<double> interval_set1(interval1);
+static boost::icl::interval_set<double> interval_set2(interval2);
 
 
 TEST_CASE("main") {
 
-    BENCHMARK("Interval") {
-        boost::icl::interval<double>::type interval1(34.5, 78.9);
-        return 0;
-    };
-
-    BENCHMARK("Intersection") {
-        interval_set1 & interval_set2;
-        return 0;
-    };
-
-    BENCHMARK("Union") {
+    BENCHMARK("Add") {
         interval_set1 + interval_set2;
         return 0;
     };
 
-    BENCHMARK("Difference") {
-        interval_set1 - interval_set2;
+    BENCHMARK("Subtract") {
+        interval_set1 + interval_set2;
+        return 0;
+    };
+
+    BENCHMARK("Contains") {
+        boost::icl::contains(interval_set1, interval_set2);
         return 0;
     };
     
