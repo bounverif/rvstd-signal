@@ -22,7 +22,7 @@ TEST_CASE("main") {
     };
 
     BENCHMARK("Subtract") {
-        interval_set1 + interval_set2;
+        interval_set1 - interval_set2;
         return 0;
     };
 
