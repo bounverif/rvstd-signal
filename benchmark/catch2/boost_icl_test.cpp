@@ -9,6 +9,10 @@
 static boost::icl::interval<double>::type interval1(0.0, 100.0);
 static boost::icl::interval<double>::type interval2(10.0, 90.0);
 
+boost::icl::interval_set<double> intersection_set;
+boost::icl::interval_set<double> union_set;
+boost::icl::interval_set<double> difference_set;
+
 
 TEST_CASE("main") {
 
@@ -18,25 +22,17 @@ TEST_CASE("main") {
     };
 
     BENCHMARK("Intersection") {
-
-        boost::icl::interval_set<double> intersection_set;
-        intersection_set = static_cast< boost::icl::interval_set<double> >(interval1);
-        intersection_set &= static_cast< boost::icl::interval_set<double> >(interval2);
-
+        intersection_set = static_cast< boost::icl::interval_set<double> >(interval1) & static_cast< boost::icl::interval_set<double> >(interval2);
         return 0;
     };
 
     BENCHMARK("Union") {
-        boost::icl::interval_set<double> union_set;
-        union_set = static_cast< boost::icl::interval_set<double> >(interval1) +
-                static_cast< boost::icl::interval_set<double> >(interval2);
+        union_set = static_cast< boost::icl::interval_set<double> >(interval1) + static_cast< boost::icl::interval_set<double> >(interval2);
         return 0;
     };
 
     BENCHMARK("Difference") {
-        boost::icl::interval_set<double> difference_set;
-        difference_set =  static_cast< boost::icl::interval_set<double> >(interval1);
-        difference_set -= static_cast< boost::icl::interval_set<double> >(interval2);
+        difference_set = static_cast< boost::icl::interval_set<double> >(interval1) - static_cast< boost::icl::interval_set<double> >(interval2);
         return 0;
     };
     
