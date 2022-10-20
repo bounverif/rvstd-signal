@@ -8,7 +8,7 @@ TEST_CASE("construction with new keyword")
 {
     ns::interval_set<int>* p_is = new ns::interval_set<int>;
     CHECK(p_is != nullptr);
-    CHECK(p_is->empty());
+    CHECK(!p_is->empty());
 }
 
 TEST_CASE("construction with new keyword and initilazer list")
