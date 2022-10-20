@@ -30,7 +30,7 @@ jobs:
       
     - name: Pull catch2 library-3  
       #it pulls builds catch2
-      run: cmake --build /tmp/catch2/build/ --target install -j$(nproc) 
+      run: sudo cmake --build /tmp/catch2/build/ --target install -j$(nproc) 
       
     - name: Pull catch2 library-4
       #catch2 library
