@@ -25,9 +25,11 @@ jobs:
       run: git clone --depth 1 --branch v3.1.0 https://github.com/catchorg/Catch2.git /tmp/catch2
       
     - name: Pull catch2 library-2  
+      #it pulls library
       run: cmake -S/tmp/catch2 -B/tmp/catch2/build -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF 
       
     - name: Pull catch2 library-3  
+      #it pulls library
       run: cmake --build /tmp/catch2/build/ --target install -j$(nproc) -rf /tmp/catch2
       
     - name: Configure CMake
