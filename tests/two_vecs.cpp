@@ -11,23 +11,10 @@ TEST_CASE( "construction with new keyword" )
    CHECK( p_is->empty() );
 }
 
-TEST_CASE( "construction with new keyword and initilazer list" )
-{
-   ns::interval_set< int >* p_is = new ns::interval_set< int >( { { 1, 8, 11, 17 }, { true, false, true, false } } );
-   CHECK( p_is != nullptr );
-   CHECK( !p_is->empty() );
-}
-
 TEST_CASE( "construction as empty" )
 {
    ns::interval_set< int > is;
    CHECK( is.empty() );
-}
-
-TEST_CASE( "construction with initilazer list" )
-{
-   ns::interval_set< int > is = { { 1, 8, 11, 17 }, { true, false, true, false } };
-   CHECK( !is.empty() );
 }
 
 TEST_CASE( "construction with initilazer list for type::chrono" )
@@ -37,11 +24,9 @@ TEST_CASE( "construction with initilazer list for type::chrono" )
    seconds_type time1( 8 );
    seconds_type time2( 11 );
    seconds_type time3( 17 );
-   ns::interval_set< seconds_type > is = { { time0, time1, time2, time3 }, { true, false, true, false } };
+   ns::interval_set< seconds_type > is = { { time0, time1 }, { time2, time3 } };
    CHECK( !is.empty() );
 }
-
-//////////////////////////////////common initiazer/////////////////////////////////////////
 
 TEST_CASE( "construction common initilazer list with invalid interval" )
 {

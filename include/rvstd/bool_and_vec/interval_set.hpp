@@ -21,12 +21,9 @@ namespace rvstd
       public:
          using size_type = int;
 
-         interval_set( std::initializer_list< TypeT > data_, bool init_ )
-            : data( data_ ), init{ init_ } {};  // Single point initialization */
-
          interval_set( std::initializer_list< std::pair< TypeT, TypeT > > common_ )
          {
-            if( common_.begin()->first == 0 ) {
+            if( common_.begin()->first == (TypeT)0 ) {
                init = true;
             }
             else {
