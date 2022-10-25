@@ -20,10 +20,6 @@ namespace rvstd
       public:
          using size_type = int;
 
-         interval_set( std::initializer_list< std::pair< TypeT, bool > > data_, bool non )
-            : data( data_ )
-         {}
-
          interval_set( std::initializer_list< std::pair< TypeT, TypeT > > common_ )
          {
             for( std::pair< TypeT, TypeT > p : common_ ) {

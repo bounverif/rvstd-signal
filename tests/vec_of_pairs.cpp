@@ -11,23 +11,10 @@ TEST_CASE( "construction with new keyword" )
    CHECK( p_is->empty() );
 }
 
-TEST_CASE( "construction with new keyword and initilazer list" )
-{
-   ns::interval_set< int >* p_is = new ns::interval_set< int >( { { 1, true }, { 2, false }, { 7, true }, { 9, false } }, false );
-   CHECK( p_is != nullptr );
-   CHECK( !p_is->empty() );
-}
-
 TEST_CASE( "construction as empty" )
 {
    ns::interval_set< int > is;
    CHECK( is.empty() );
-}
-
-TEST_CASE( "construction with initilazer list" )
-{
-   ns::interval_set< int > is = { { { 1, true }, { 2, false }, { 7, true }, { 9, false } }, false };
-   CHECK( !is.empty() );
 }
 
 TEST_CASE( "construction with initilazer list for type::chrono" )
@@ -37,7 +24,7 @@ TEST_CASE( "construction with initilazer list for type::chrono" )
    seconds_type time1( 8 );
    seconds_type time2( 11 );
    seconds_type time3( 17 );
-   ns::interval_set< seconds_type > is = { { { time0, true }, { time1, false }, { time2, true }, { time3, false } }, false };
+   ns::interval_set< seconds_type > is = { { time0, time1 }, { time2, time3 } };
    CHECK( !is.empty() );
 }
 
@@ -77,6 +64,7 @@ TEST_CASE( "construction with common initilazer list" )
    CHECK( !is.empty() );
    CHECK( is.size() == 4 );
 }
+
 TEST_CASE( "using reserve function " )
 {
    ns::interval_set< int > is0;
