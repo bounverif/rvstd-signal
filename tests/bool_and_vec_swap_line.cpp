@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include "bool_and_vec/interval_set.hpp"
+#include "bool_and_vec/interval_set_swap_line.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 #define ns rvstd::bool_and_vec
