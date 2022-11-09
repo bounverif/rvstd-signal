@@ -153,6 +153,8 @@ namespace rvstd
             //create new list
             interval_set< TypeT, AllocatorT > ret( ret_bool );
 
+            ret.reserve( round_up_above_2_bit( data.size() + other.size() ) );
+
             std::vector< TypeT > other_vec = other.get_data_vector();
             std::vector< TypeT > ret_vec;
             int this_index = 0, other_index = 0;
@@ -234,8 +236,17 @@ namespace rvstd
          {
             data = data_;
          }
+         unsigned int round_up_above_2_bit( unsigned int x )
+         {
+            x--;
+            for( unsigned int i = 1; i < 16; i *= 2 ) {
+               x |= x >> i;
+            }
+            x++;
+            return x;
+         }
       };
-   }  // namespace bool_and_vec
+   }  // namespace bool_and_vec_sweep_line
 }  // namespace rvstd
 
 #endif  // INTERVAL_SET_RVSTD
