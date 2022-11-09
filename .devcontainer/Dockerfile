@@ -44,3 +44,11 @@ RUN git clone --depth 1 --branch v1.7.0 https://github.com/google/benchmark.git 
     -DCMAKE_BUILD_TYPE=Release \
     && cmake --build /tmp/benchmark/build/ --target install -j$(nproc) \
     && rm -rf /tmp/benchmark
+
+# Add a container user (good practice)
+RUN groupadd work -g 1000 \
+   && useradd -ms /bin/bash bouncmpe -g 1000 -u 1000 \
+   && printf "bouncmpe:bouncmpe" | chpasswd \
+   && printf "bouncmpe ALL= NOPASSWD: ALL\\n" >> /etc/sudoers
+
+USER bouncmpe
