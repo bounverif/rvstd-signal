@@ -14,10 +14,10 @@ function(add_test_ name_test)
   add_test(NAME  ctest_${name_test} COMMAND test__${name_test})
 endfunction(add_test_)
 
-#add_test_("bool_and_vec")
+add_test_("bool_and_vec_skip_line")
 #add_test_("two_vecs")
 #add_test_("vec_of_pairs")
-add_test_("bool_and_vec_sweep_line")
+#add_test_("bool_and_vec_sweep_line")
 
 
 include_directories("../include/rvstd")

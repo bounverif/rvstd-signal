@@ -1,12 +1,12 @@
 #define CATCH_CONFIG_MAIN
-#include "bool_and_vec/interval_set.hpp"
+#include "bool_and_vec/interval_set_skip_line.hpp"
 #include <catch2/catch_test_macros.hpp>
 
-#define ns rvstd::bool_and_vec
+#define ns rvstd::bool_and_vec_skip_line
 
 TEST_CASE( "construction with new keyword" )
 {
-   ns::interval_set< int >* p_is = new ns::interval_set< int >;
+   ns::interval_set< int >* p_is = new ns::interval_set< int >(false);
    CHECK( p_is != nullptr );
    CHECK( p_is->empty() );
 }
@@ -125,46 +125,6 @@ TEST_CASE( "checking a time values with at() function " )
    }
 }
 
-TEST_CASE( "appending one interval to the set " )
-{
-   ns::interval_set< int > is0;
-   REQUIRE( is0.empty() );
-
-   SECTION( "adding to empty set " )
-   {
-      std::pair< int, int > p( 2, 7 );
-      is0.append( p );
-      CHECK( is0.at( 3 ) == true );
-      CHECK( is0.size() == 1 );
-      // is0 -> { 2, 7 } { T, F }
-   }
-
-   SECTION( "adding to non-empty set " )
-   {
-      std::pair< int, int > p( 15, 17 );
-      is0.append( p );
-      CHECK( is0.at( 16 ) == true );
-      CHECK( is0.size() == 2 );
-      // is0 -> { 2, 7, 15, 17 } { T, F, T, F }
-   }
-
-   SECTION( "adding to mid of set " )
-   {
-      std::pair< int, int > p( 16, 22 );
-      CHECK_THROWS( is0.append( p ) );
-      // is0 -> { 2, 7, 15, 17 } { T, F, T, F }
-   }
-
-   SECTION( "adding to exact end of set " )
-   {
-      std::pair< int, int > p( 17, 22 );
-      is0.append( p );
-      CHECK( is0.at( 19 ) == true );
-      CHECK( is0.at( 17 ) == true );
-      CHECK( is0.size() == 5 );
-      // is0 -> { 2, 7, 15, 22 } { T, F, T, F }
-   }
-}
 
 TEST_CASE( "Union operation" ) {
    ns::interval_set< int > is1 { { { 1, 3 }, { 9, 11 } }, false };
