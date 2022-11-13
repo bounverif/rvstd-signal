@@ -1,4 +1,0 @@
-/home/mehmet/Mehmet/Dersler/CMPE492/rvstd/tests/build/CMakeFiles/edit_cache.dir
-/home/mehmet/Mehmet/Dersler/CMPE492/rvstd/tests/build/CMakeFiles/test.dir
-/home/mehmet/Mehmet/Dersler/CMPE492/rvstd/tests/build/CMakeFiles/rebuild_cache.dir
-/home/mehmet/Mehmet/Dersler/CMPE492/rvstd/tests/build/CMakeFiles/test__bool_and_vec_skip_line.dir
