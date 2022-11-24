@@ -232,7 +232,7 @@ namespace rvstd
          {
             return init;
          }
-         void set_data_vector( const std::vector< TypeT > data_ )
+         void set_data_vector( const std::vector< TypeT >& data_ )
          {
             data = data_;
          }
