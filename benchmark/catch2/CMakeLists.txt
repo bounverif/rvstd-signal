@@ -17,4 +17,5 @@ endfunction(add_test_)
 
 add_test_("boost_icl_bm")
 add_test_("bool_and_vec_sweep_line_bm")
+add_test_("bool_and_vec_skip_line_bm")
 

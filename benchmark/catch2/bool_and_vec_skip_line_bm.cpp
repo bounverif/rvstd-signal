@@ -1,10 +1,10 @@
-#include "../../include/rvstd/bool_and_vec/interval_set_sweep_line.hpp"
+#include "../../include/rvstd/bool_and_vec/interval_set_skip_line.hpp"
 #include <catch2/benchmark/catch_benchmark.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <iostream>
 #include <string>
 
-#define ns rvstd::bool_and_vec_sweep_line
+#define ns rvstd::bool_and_vec_skip_line
 
 template< typename T >
 void print_interval_set( ns::interval_set< T > C, std::string message )
@@ -17,8 +17,8 @@ void print_interval_set( ns::interval_set< T > C, std::string message )
    }
    std::cout << "}\n";
 }
-
-TEST_CASE( "bool_and_vec/sweep_line  different intensity 0" )
+/*
+TEST_CASE( "bool_and_vec/skip_line  different intensity 0" )
 {
    ns::interval_set< int > A = { { -99, -98 }, { -97, -96 }, { -95, -94 }, { -93, -92 }, { -80, 0 }, { 2, 5 }, { 6, 17 }, { 42, 47 }, { 59, 67 }, { 85, 89 }, { 97, 100 } };
    ns::interval_set< int > B = { { -94, -80 }, { -79, -78 }, { -77, -76 }, { -75, -74 }, { -73, -72 }, { -71, -70 }, { -69, -68 }, { -67, -66 }, { -65, -64 }, { 1, 100 } };
@@ -45,8 +45,8 @@ TEST_CASE( "bool_and_vec/sweep_line  different intensity 0" )
    print_interval_set( A - B, "A - B" );
    print_interval_set( A & B, "A & B" );
 }
-
-TEST_CASE( "bool_and_vec/sweep_line  different intensity 1" )
+*/
+TEST_CASE( "bool_and_vec/skip_line  different intensity 1" )
 {
    ns::interval_set< int > A = { { -905, -667 }, { -622, -614 }, { -592, -585 }, { -583, -493 }, { -476, -299 }, { -295, -281 }, { -174, -56 }, { 86, 132 }, { 191, 287 }, { 320, 366 }, { 440, 514 }, { 563, 622 }, { 650, 749 }, { 820, 924 }, { 934, 975 } };
    ns::interval_set< int > B = { { -50, -49 }, { -44, -41 }, { -37, -29 }, { -24, -18 }, { -16, -13 }, { -12, -10 }, { -8, -6 }, { -2, 9 }, { 10, 17 }, { 19, 20 }, { 21, 23 }, { 30, 40 }, { 41, 42 }, { 47, 48 }, { 49, 50 } };
@@ -74,7 +74,7 @@ TEST_CASE( "bool_and_vec/sweep_line  different intensity 1" )
    print_interval_set( A & B, "A & B" );
 }
 
-TEST_CASE( "bool_and_vec/sweep_line  different intensity 2" )
+TEST_CASE( "bool_and_vec/skip_line  different intensity 2" )
 {
    ns::interval_set< int > A = { { -905, -667 }, { -622, -614 }, { -592, -585 }, { -583, -493 }, { -476, -299 }, { -295, -281 }, { -174, -156 }, { -86, 132 }, { 191, 287 }, { 320, 366 }, { 440, 514 }, { 563, 622 }, { 650, 749 }, { 820, 924 }, { 934, 975 } };
    ns::interval_set< int > B = { { -50, -49 }, { -44, -41 }, { -37, -29 }, { -24, -18 }, { -16, -13 }, { -12, -10 }, { -8, -6 }, { -2, 9 }, { 10, 17 }, { 19, 20 }, { 21, 23 }, { 30, 40 }, { 41, 42 }, { 47, 48 }, { 49, 50 } };
@@ -102,7 +102,7 @@ TEST_CASE( "bool_and_vec/sweep_line  different intensity 2" )
    print_interval_set( A & B, "A & B" );
 }
 
-TEST_CASE( "bool_and_vec/sweep_line  large sets" )
+TEST_CASE( "bool_and_vec/skip_line  large sets" )
 {
    bool A_bool = false;
    bool B_bool = false;
@@ -111,12 +111,12 @@ TEST_CASE( "bool_and_vec/sweep_line  large sets" )
 
    for( int i = -1000; i < 1000; i += 7 ) {
       A_bool = ( !A_bool );
-      A.append( i, A_bool );
+      A.append( i );
    }
 
    for( int i = -1000; i < 1000; i += 11 ) {
       B_bool = ( !B_bool );
-      B.append( i, B_bool );
+      B.append( i );
    }
    BENCHMARK( "Union" )
    {
@@ -143,7 +143,7 @@ TEST_CASE( "bool_and_vec/sweep_line  large sets" )
    print_interval_set( A & B, "A & B" );
 }
 
-TEST_CASE( "bool_and_vec/sweep_line  rare cases" )
+TEST_CASE( "bool_and_vec/skip_line  rare cases" )
 {
    ns::interval_set< int > A = { { -99, -95 }, { -93, -89 }, { -82, -80 }, { -66, -58 }, { -55, -52 }, { -42, -34 }, { -33, -15 }, { -13, -11 }, { -5, -1 }, { 2, 5 }, { 6, 17 }, { 42, 47 }, { 59, 67 }, { 85, 89 }, { 97, 100 } };
 
@@ -190,7 +190,7 @@ TEST_CASE( "bool_and_vec/sweep_line  rare cases" )
    print_interval_set( A & A, "A& A" );
 }
 
-TEST_CASE( "bool_and_vec/sweep_line  basic double" )
+TEST_CASE( "bool_and_vec/skip_line  basic double" )
 {
    ns::interval_set< double > A = { { -9.99898498, -9.554985 }, { -9.36546, -8.987 }, { -8.2, -8.05688 }, { -6.66868, -5.84 }, { -5.5999999, -5.2546 }, { -4.22232, -3.4111111 }, { -3.33, -1.52 }, { -1.364895, -1.1389595 }, { -0.525959, -0.16 }, { 0.2999999, 0.500000 }, { 0.6322312, 1.711235 }, { 4.22359, 4.79595 }, { 5.999999, 6.79999 }, { 8.59999, 8.999595 }, { 9.723135, 10.046646122 } };
    ns::interval_set< double > B = { { -9.40404040, -8.012151 }, { -5.9526252, -4.86544848 }, { -4.065888, -3.835595952 }, { -2.3122, -0.9956 }, { 0.6926, 1.2965 }, { 2.3658489, 3.889529 }, { 4.6456289, 5.98959595 }, { 6.3123595, 6.987654 }, { 7.2232826, 8.93595 }, { 9.166666, 9.2126888 } };
@@ -231,7 +231,7 @@ TEST_CASE( "bool_and_vec/sweep_line  basic double" )
    print_interval_set( not( A ), "not(A)" );
 }
 
-TEST_CASE( "bool_and_vec/sweep_line  basic" )
+TEST_CASE( "bool_and_vec/skip_line  basic" )
 {
    ns::interval_set< int > A = { { -99, -95 }, { -93, -89 }, { -82, -80 }, { -66, -58 }, { -55, -52 }, { -42, -34 }, { -33, -15 }, { -13, -11 }, { -5, -1 }, { 2, 5 }, { 6, 17 }, { 42, 47 }, { 59, 67 }, { 85, 89 }, { 97, 100 } };
    ns::interval_set< int > B = { { -94, -80 }, { -59, -48 }, { -40, -38 }, { -23, -9 }, { 6, 12 }, { 23, 38 }, { 46, 59 }, { 63, 69 }, { 72, 89 }, { 91, 92 } };
