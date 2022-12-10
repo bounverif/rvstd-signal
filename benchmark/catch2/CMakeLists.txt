@@ -12,7 +12,7 @@ set(CMAKE_BUILD_TYPE RELEASE)
 function(add_test_ name_test)
   add_executable(test__${name_test} ${name_test}.cpp)
   target_link_libraries(test__${name_test} PRIVATE Catch2::Catch2WithMain)
-  add_test(NAME  ctest_${name_test} COMMAND test__${name_test})
+  add_test(NAME  ctest_${name_test} COMMAND test__${name_test} --reporter CSV::out=- --reporter console::out=out_${name_test}.txt)
 endfunction(add_test_)
 
 add_test_("boost_icl_bm")
