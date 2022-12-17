@@ -15,7 +15,8 @@ function(add_test_ name_test)
   add_test(NAME  ctest_${name_test} COMMAND test__${name_test} --reporter CSV::out=- --reporter console::out=out_${name_test}.txt)
 endfunction(add_test_)
 
-add_test_("boost_icl_bm")
+#add_test_("boost_icl_bm")
+add_test_("vec_of_pairs_sweep_line_bm")
 add_test_("bool_and_vec_sweep_line_bm")
-add_test_("bool_and_vec_skip_line_bm")
+#add_test_("bool_and_vec_skip_line_bm")
 
