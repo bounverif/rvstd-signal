@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define ns rvstd::vec_of_pairs_sweep_line
-/*
+
 TEST_CASE( "construction with new keyword" )
 {
    ns::interval_map< int, int >* p_is = new ns::interval_map<int , int>;
@@ -167,7 +167,7 @@ TEST_CASE( "appending to the set " )
       // is0 -> { 3-1 }
    }
 }
-*/
+
 TEST_CASE( "Union operation as 0 1 value" )
 {
    ns::interval_map< int, int > is1{ { { { 1, 3 }, 1 }, { { 9, 11 }, 1 } }, 0 };
