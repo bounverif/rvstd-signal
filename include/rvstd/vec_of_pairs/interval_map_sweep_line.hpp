@@ -5,34 +5,33 @@
 #include <chrono>
 #include <climits>
 #include <cstdlib>
+#include <iostream>
+#include <limits>
 #include <new>
 #include <stdexcept>
 #include <string>
 #include <typeinfo>
 #include <vector>
-#include <iostream>
-
 
 /*
-* ({ "{ {_ , _}, _}"; "{ {_ , _}, _}", ... })
+* TypeV can be std::numeric_limits types
 */
 namespace rvstd
 {
    namespace vec_of_pairs_sweep_line
    {
-      template< class TypeT = double, class TypeV = int,class AllocatorT = std::allocator< TypeT > >
+      template< class TypeT = double, class TypeV = int, class AllocatorT = std::allocator< TypeT > >
       class interval_map
       {
       private:
-         std::vector<std::pair< TypeT, TypeV > > data;// Data buffer
+         std::vector< std::pair< TypeT, TypeV > > data;  // Data buffer
          TypeV init;
-         TypeV base = 0;
-
 
       public:
          using size_type = std::size_t;
-         
-         interval_map( std::initializer_list< std::pair< std::pair< TypeT, TypeT >, TypeV > > common_, TypeV init_ = 0 )
+         TypeV base = std::numeric_limits< TypeV >::lowest();
+
+         interval_map( std::initializer_list< std::pair< std::pair< TypeT, TypeT >, TypeV > > common_, TypeV init_ = std::numeric_limits< TypeV >::lowest() )
          {
             init = init_;
             for( std::pair< std::pair< TypeT, TypeT >, TypeV > p : common_ ) {
@@ -48,42 +47,29 @@ namespace rvstd
                if( !data.empty() && interval_.first < data.back().first ) {
                   throw std::invalid_argument( "invalid interval" );
                }
-               if( !data.empty() && interval_.first == data.back().first && value_ == data[data.size()-2].second ) {
+               if( !data.empty() && interval_.first == data.back().first && value_ == data[ data.size() - 2 ].second ) {
                   data.pop_back();
-                  data.push_back( std::make_pair(interval_.second, base) );
+                  data.push_back( std::make_pair( interval_.second, base ) );
                   continue;
                }
-               if( !data.empty() && interval_.first == data.back().first ){
+               if( !data.empty() && interval_.first == data.back().first ) {
                   data.back().second = value_;
-                  data.push_back(std::make_pair(interval_.second,base));
+                  data.push_back( std::make_pair( interval_.second, base ) );
                   continue;
                }
-               if( data.empty() &&  value_ == init_ ){
-                  if( init_ != base){
-                  data.push_back( std::make_pair(interval_.second,base) );
-                  }
+               if( data.empty() && value_ == init_ ) {
+                  //if( init_ != base){
+                  //data.push_back( std::make_pair(interval_.second,base) );
+                  //}
                   continue;
                }
-               
-               data.push_back( std::make_pair(interval_.first,value_));
-               data.push_back( std::make_pair(interval_.second,base) );
+
+               data.push_back( std::make_pair( interval_.first, value_ ) );
+               data.push_back( std::make_pair( interval_.second, base ) );
             }
          }
-         /*
-         interval_map( bool_and_vec_sweep_line::interval_set<TypeT> x, std::vector<TypeV> y, TypeV init_ = 0 )
-         {
-            if (x.size() != y.size()){
-               throw std::invalid_argument( "size of vectors should be equal" );
-            }
-            init = init_;
 
-            for(int i = 0; i < x.size(); i++){
-               std::cout << i << ":  "<< x.get_data_vector()[i] << ", " << y[i] << "\n";
-               append(x.get_data_vector()[i],y[i] );
-            }
-         }*/
-
-         explicit interval_map( TypeV init_ = 0 )
+         explicit interval_map( TypeV init_ = std::numeric_limits< TypeV >::lowest() )
             : init( init_ ){};
 
          ~interval_map() = default;
@@ -121,7 +107,7 @@ namespace rvstd
          void clear() noexcept;                                       // Remove completely.
          void delete_interval( int pos ) noexcept;                    // used to remove posth interval. Can be used to delete first element. Left to right order.
          void delete_interval( std::pair< TypeT, TypeT > ) noexcept;  //delete specific interval.
-         
+
          /*
          * adds an element to end of the list
          * O(1)
@@ -132,7 +118,7 @@ namespace rvstd
                return;
             }
             if( data.size() == 0 && value != init ) {
-               data.push_back( std::make_pair(pos, value) );
+               data.push_back( std::make_pair( pos, value ) );
                return;
             }
 
@@ -146,14 +132,13 @@ namespace rvstd
 
             if( pos == data.back().first ) {
                data.pop_back();
-               if( value != data.back().second ){
-                  data.push_back( std::make_pair(pos, value) );
+               if( value != data.back().second && ( data.size() != 0 || value != base ) ) {
+                  data.push_back( std::make_pair( pos, value ) );
                }
                return;
             }
-            data.push_back( std::make_pair(pos, value) );
+            data.push_back( std::make_pair( pos, value ) );
          };
-
 
          /*
          * O(log(n))
@@ -161,19 +146,16 @@ namespace rvstd
          */
          TypeV at( const TypeT pos )
          {
-            if( data.size() == 0) {
+            if( data.size() == 0 ) {
                return init;
             }
-            typename std::vector< std::pair<TypeT, TypeV> >::iterator up;
+            typename std::vector< std::pair< TypeT, TypeV > >::iterator up;
 
-            up = std::lower_bound( data.begin(), data.end(), std::make_pair(pos,0),
-             [](const std::pair<TypeT, TypeV> & a, const std::pair<TypeT, TypeV> & b) { return a.first <= b.first; } );
-            
-            int index = std::distance(data.begin(),up)-1;            
-            return index < 0 ? init : data[index].second;
+            up = std::lower_bound( data.begin(), data.end(), std::make_pair( pos, 0 ), []( const std::pair< TypeT, TypeV >& a, const std::pair< TypeT, TypeV >& b ) { return a.first <= b.first; } );
+
+            int index = std::distance( data.begin(), up ) - 1;
+            return index < 0 ? init : data[ index ].second;
          };
-
-
 
          template< typename TypeP >
          interval_map< TypeT, TypeP, AllocatorT > set_operations( const interval_map< TypeT, TypeP, AllocatorT >& other, std::function< TypeP( TypeP, TypeP ) > op )
@@ -189,8 +171,8 @@ namespace rvstd
 
             ret.reserve( round_up_above_2_bit( data.size() + other.size() ) );
 
-            std::vector< std::pair<TypeT, TypeP > > other_vec = other.get_data_vector();
-            std::vector< std::pair<TypeT, TypeP > > ret_vec;
+            std::vector< std::pair< TypeT, TypeP > > other_vec = other.get_data_vector();
+            std::vector< std::pair< TypeT, TypeP > > ret_vec;
             int this_index = 0, other_index = 0;
             bool is_done_this = ( data.size() == 0 ), is_done_other = ( other_vec.size() == 0 );
 
@@ -198,7 +180,7 @@ namespace rvstd
                TypeT value;
 
                if( is_done_other || ( !is_done_this && data[ this_index ].first <= other_vec[ other_index ].first ) ) {
-                  this_val = data[this_index].second;
+                  this_val = data[ this_index ].second;
                   value = data[ this_index ].first;
                   ++this_index;
                }
@@ -222,12 +204,6 @@ namespace rvstd
             std::function< TypeV( TypeV, TypeV ) > binary_op = []( TypeV x, TypeV y ) { return ( x < y ? y : x ); };
             return set_operations< TypeV >( other, binary_op );
          }
-         /*
-         interval_map< TypeT, TypeV, AllocatorT > set_difference( const interval_map< TypeT, TypeV, AllocatorT >& other )
-         {
-            std::function< TypeV( TypeV, TypeV ) > binary_op = []( TypeV x, TypeV y ) { return ( x < y ? y : x ); };
-            return set_operations< TypeV >( other, binary_op );
-         }*/
          interval_map< TypeT, TypeV, AllocatorT > set_intersection( const interval_map< TypeT, TypeV, AllocatorT >& other )
          {
             std::function< TypeV( TypeV, TypeV ) > binary_op = []( TypeV x, TypeV y ) { return ( x < y ? x : y ); };
@@ -235,11 +211,11 @@ namespace rvstd
          }
          interval_map< TypeT, TypeV, AllocatorT > set_complement()
          {
-            interval_map< TypeT, TypeV, AllocatorT > not_this( base - init );
-            std::vector<std::pair< TypeT, TypeV > > new_data;
+            interval_map< TypeT, TypeV, AllocatorT > not_this( negate_value( base ) );
+            std::vector< std::pair< TypeT, TypeV > > new_data;
 
-            for(std::pair< TypeT, TypeV > p : data){
-               new_data.push_back(std::make_pair(p.first, base - p.second));
+            for( std::pair< TypeT, TypeV > p : data ) {
+               new_data.push_back( std::make_pair( p.first, negate_value( p.second ) ) );
             }
             not_this.set_data_vector( new_data );
             return not_this;
@@ -249,11 +225,6 @@ namespace rvstd
          {
             return set_union( other );
          }
-         /*
-         interval_map< TypeT, TypeV, AllocatorT > operator-( const interval_map< TypeT, TypeV, AllocatorT >& other )
-         {
-            return set_difference( other );
-         }*/
          interval_map< TypeT, TypeV, AllocatorT > operator&( const interval_map< TypeT, TypeV, AllocatorT >& other )
          {
             return set_intersection( other );
@@ -265,7 +236,7 @@ namespace rvstd
 
          // UTILITY
          const std::string to_string();
-         const std::vector<std::pair< TypeT, TypeV > >& get_data_vector() const
+         const std::vector< std::pair< TypeT, TypeV > >& get_data_vector() const
          {
             return data;
          }
@@ -273,7 +244,7 @@ namespace rvstd
          {
             return init;
          }
-         void set_data_vector( const std::vector<std::pair< TypeT, TypeV > >& data_ )
+         void set_data_vector( const std::vector< std::pair< TypeT, TypeV > >& data_ )
          {
             data = data_;
          }
@@ -285,6 +256,16 @@ namespace rvstd
             }
             x++;
             return x;
+         }
+         TypeV negate_value( TypeV val )
+         {
+            if( val == std::numeric_limits< TypeV >::lowest() ) {
+               return std::numeric_limits< TypeV >::max();
+            }
+            if( val == std::numeric_limits< TypeV >::max() ) {
+               return std::numeric_limits< TypeV >::lowest();
+            }
+            return val * -1;
          }
       };
    }  // namespace vec_of_pairs_sweep_line
