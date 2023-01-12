@@ -17,6 +17,7 @@ endfunction(add_test_)
 add_test_(bool_and_vec_skip_line .)
 add_test_(bool_and_vec_sweep_line .)
 add_test_(vec_of_pairs_sweep_line interval_map)
+add_test_(vec_of_pairs .)
 
 #add_test_(two_vecs .)
 
