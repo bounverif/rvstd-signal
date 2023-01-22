@@ -15,7 +15,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         python3-all-dev \
         python3-pip \
         python-is-python3 \
-    && ln -s /usr/bin/python3 /usr/bin/python \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
    
 RUN git clone -j$(nproc) --recursive --depth 1 --branch boost-1.81.0 https://github.com/boostorg/boost.git /tmp/boost \
